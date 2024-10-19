@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Management</title>
+    <link rel="stylesheet" href="/proxy-management/proxy-management.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>Proxy Management</h1>
+        <nav>
+            <a href="/">API Request Sender</a>
+            <a href="/proxy-management" class="active">Proxy Management</a>
+        </nav>
+    </header>
+    <main>
+        <div id="proxyConfig">
+            <h2>Proxy Configuration</h2>
+            <form id="proxyConfigForm">
+                <label for="target">Target URL:</label>
+                <input type="url" id="target" required>
+                
+                <label for="apiKey">API Key:</label>
+                <input type="password" id="apiKey" required>
+                
+                <label for="publicApiKey">Public API Key:</label>
+                <input type="text" id="publicApiKey" required>
+                
+                <button type="submit">Save Configuration</button>
+            </form>
+        </div>
+        <div id="proxyInfo">
+            <h2>Proxy Information</h2>
+            <p>Public API Endpoint: <code id="publicApiEndpoint"></code></p>
+            <button id="copyEndpoint"><i class="fas fa-copy"></i> Copy Endpoint</button>
+        </div>
+    </main>
+    <script src="/proxy-management/proxy-management.js"></script>
+</body>
+</html>

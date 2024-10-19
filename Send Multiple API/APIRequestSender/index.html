@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Request Sender</title>
+    <link rel="stylesheet" href="style.css"> <!-- Correct path to style.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jsoneditor/9.9.2/jsoneditor.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <header>
+        <h1>API Request Sender</h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/api-request-sender" class="active">API Request Sender</a>
+            <a href="/proxy-management">Proxy Management</a>
+        </nav>
+        <div class="data-controls">
+            <select id="dataSelector"></select>
+            <button id="saveButton" class="all-button"><i class="fas fa-save"></i> Save</button>
+            <button id="newFileButton" class="all-button"><i class="fas fa-file-plus"></i> New File</button>
+        </div>
+        <div class="top-buttons">
+            <!-- Buttons will be added here dynamically -->
+        </div>
+    </header>
+    <main>
+        <div id="leftPanel">
+            <div id="requestContainer"></div>
+        </div>
+        <div id="rightPanel">
+            <h2>Responses</h2>
+            <div id="responseContainer"></div>
+        </div>
+    </main>
+    <script src="script.js"></script> <!-- Correct path to script.js -->
+</body>
+</html>
