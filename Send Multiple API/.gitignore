@@ -1,1 +1,9 @@
-# npmnode_modulespackage-lock.jsonnpm-shrinkwrap.json*.log*.gz# Coveralls.nyc_outputcoverage.env/APIRequestHeader/data
+
+/node_modules
+/user-data
+/screenshots
+
+.env
+
+
+/APIRequestSender/data
