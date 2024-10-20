@@ -393,6 +393,24 @@ function resetButton(button) {
     button.disabled = false;
 }
 
+function toggleDisable(id) {
+    const requestBlock = document.getElementById(`requestBlock${id}`);
+    const disableButton = document.getElementById(`disableButton${id}`);
+    const inputs = requestBlock.querySelectorAll('input, select, textarea, button:not(.disableButton)');
+    
+    if (requestBlock.classList.contains('disabled')) {
+        requestBlock.classList.remove('disabled');
+        disableButton.innerHTML = '<i class="fas fa-power-off"></i> Disable';
+        inputs.forEach(input => input.disabled = false);
+    } else {
+        requestBlock.classList.add('disabled');
+        disableButton.innerHTML = '<i class="fas fa-power-off"></i> Enable';
+        inputs.forEach(input => input.disabled = true);
+    }
+    
+    markUnsavedChanges();
+}
+
 $(document).ready(function() {
     updateDataSelector();
 

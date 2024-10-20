@@ -256,12 +256,12 @@ button:active {
 
 .requestBlock.disabled {
     opacity: 0.5;
+    pointer-events: none;
 }
 
-.requestBlock.disabled input,
-.requestBlock.disabled select,
-.requestBlock.disabled textarea {
-    pointer-events: none;
+.requestBlock.disabled .disableButton {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 button:disabled {
@@ -529,12 +529,12 @@ button:active {
 
 .requestBlock.disabled {
     opacity: 0.5;
+    pointer-events: none;
 }
 
-.requestBlock.disabled input,
-.requestBlock.disabled select,
-.requestBlock.disabled textarea {
-    pointer-events: none;
+.requestBlock.disabled .disableButton {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 button:disabled {
