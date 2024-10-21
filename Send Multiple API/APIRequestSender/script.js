@@ -50,7 +50,7 @@ function addRequestBlock(savedData = null) {
                 <div class="header-row">
                     <input type="text" class="header-key" placeholder="Key">
                     <input type="text" class="header-value" placeholder="Value">
-                    <button class="remove-header">-</button>
+                    <button class="remove-header" onclick="removeHeaderRow(this)">-</button>
                 </div>
             </div>
             <button class="add-header" onclick="addHeaderRow(${requestCount})">+ Add Header</button>
@@ -106,7 +106,7 @@ function addRequestBlock(savedData = null) {
 
 function updateDataSelector(newFileName = null) {
     $.ajax({
-        url: '/list-files', // Ensure this matches your server endpoint
+        url: '/list-files',
         type: 'GET',
         success: function(files) {
             const dataSelector = $('#dataSelector');
@@ -132,23 +132,23 @@ function updateDataSelector(newFileName = null) {
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.error('Error listing files: ' + errorThrown);
+            console.error('Error listing files:', textStatus, errorThrown);
             addRequestBlock();
         }
     });
 }
 
 function createNewFile() {
-    const newFileName = prompt("Enter a name for the new file (without .txt extension):");
+    const newFileName = prompt("Enter a name for the new file (without .json extension):");
     if (newFileName) {
-        currentFileName = newFileName;
+        currentFileName = newFileName + '.json'; // Add .json extension
         // Clear existing requests
         document.getElementById('requestContainer').innerHTML = '';
         requestCount = 0;
         // Add a default empty request block
         addRequestBlock();
         // Update the data selector
-        updateDataSelector(newFileName);
+        updateDataSelector(currentFileName);
         // Save the new empty file
         saveToFile();
     }
@@ -156,24 +156,27 @@ function createNewFile() {
 
 function loadFromFile(filename) {
     $.ajax({
-        url: '/load-data', // Ensure this matches your server endpoint
+        url: '/load-data',
         type: 'GET',
         data: { filename },
+        dataType: 'json',
         success: function(savedData) {
-            if (savedData && savedData.length > 0) {
-                // Clear existing requests
+            console.log('Received data:', savedData);
+            if (savedData && Array.isArray(savedData) && savedData.length > 0) {
                 document.getElementById('requestContainer').innerHTML = '';
                 requestCount = 0;
                 savedData.forEach(request => addRequestBlock(request));
-                hasUnsavedChanges = false; // Reset unsaved changes flag after loading
+                hasUnsavedChanges = false;
             } else {
-                console.log('No data found in the selected file.');
-                addRequestBlock(); // Add a new empty request block if no data is found
+                console.log('No valid data found in the selected file.');
+                addRequestBlock();
             }
         },
         error: function(jqXHR, textStatus, errorThrown) {
-            console.error('Error loading data: ' + errorThrown);
-            addRequestBlock(); // Add a new empty request block on error
+            console.error('Error loading data:', textStatus, errorThrown);
+            console.log('Response Text:', jqXHR.responseText);
+            showNotification('Error loading file. Check console for details.', 'error');
+            addRequestBlock();
         }
     });
 }
@@ -408,6 +411,25 @@ function toggleDisable(id) {
         inputs.forEach(input => input.disabled = true);
     }
     
+    markUnsavedChanges();
+}
+
+function addHeaderRow(id) {
+    const container = document.getElementById(`headersContainer${id}`);
+    const row = document.createElement('div');
+    row.className = 'header-row';
+    row.innerHTML = `
+        <input type="text" class="header-key" placeholder="Key">
+        <input type="text" class="header-value" placeholder="Value">
+        <button class="remove-header" onclick="removeHeaderRow(this)">-</button>
+    `;
+    container.appendChild(row);
+    markUnsavedChanges();
+}
+
+function removeHeaderRow(button) {
+    const row = button.closest('.header-row');
+    row.remove();
     markUnsavedChanges();
 }
 

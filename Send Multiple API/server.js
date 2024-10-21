@@ -68,47 +68,44 @@ app.post('/save-data', express.json(), async (req, res) => {
     }
 });
 
-// Route for loading data
+// Update the load-data route
 app.get('/load-data', async (req, res) => {
     const { filename } = req.query;
     try {
-        const data = await fs.readFile(path.join(__dirname, 'APIRequestSender', 'data', `${filename}.txt`), 'utf8');
-        res.json(JSON.parse(data)); // Ensure the data is parsed correctly
+        const data = await fs.readFile(path.join(__dirname, 'APIRequestSender', 'data', `${filename}`), 'utf8');
+        res.json(JSON.parse(data));
     } catch (error) {
         if (error.code === 'ENOENT') {
             res.status(404).json({ error: 'File not found' });
         } else {
-            console.error('Error loading data:', error); // Log the error for debugging
+            console.error('Error loading data:', error);
             res.status(500).json({ error: 'Error loading data' });
         }
     }
 });
 
-// Route for listing available files
+// Update the list-files route
 app.get('/list-files', async (req, res) => {
     try {
-        const files = await fs.readdir(path.join(__dirname, 'APIRequestSender', 'data')); // Ensure this path is correct
-        const txtFiles = files.filter(file => file.endsWith('.txt')).map(file => file.replace('.txt', ''));
-        res.json(txtFiles);
+        const files = await fs.readdir(path.join(__dirname, 'APIRequestSender', 'data'));
+        const jsonFiles = files.filter(file => file.endsWith('.json'));
+        res.json(jsonFiles);
     } catch (error) {
-        console.error('Error listing files:', error); // Log the error for debugging
+        console.error('Error listing files:', error);
         res.status(500).json({ error: 'Error listing files' });
     }
 });
 
-// API to save data
+// Update the save-data route
 app.post('/api/save-data', express.json(), async (req, res) => {
     const { filename, data } = req.body;
     try {
-        // Ensure the data directory exists
         const dataDir = path.join(__dirname, 'APIRequestSender', 'data');
-        await fs.mkdir(dataDir, { recursive: true }); // Create the directory if it doesn't exist
-
-        // Save the data as a JSON file
-        await fs.writeFile(path.join(dataDir, `${filename}.json`), JSON.stringify(data, null, 2));
+        await fs.mkdir(dataDir, { recursive: true });
+        await fs.writeFile(path.join(dataDir, filename), JSON.stringify(data, null, 2));
         res.json({ message: 'Data saved successfully' });
     } catch (error) {
-        console.error('Error saving data:', error); // Log the error for debugging
+        console.error('Error saving data:', error);
         res.status(500).json({ error: 'Error saving data' });
     }
 });
